@@ -1,0 +1,20 @@
+{
+    "ROS": {
+        "subscribers": {
+            "rosout": {
+                "Topic": "/rosout",
+                "messageType": "rosgraph_msgs/Log",
+                "queueLength": 100,
+                "listener" : {},
+                "data": []
+            },
+            "e_stop": {
+                "Topic": "/e_stop",
+                "messageType": "std_msgs/Bool",
+                "queueLength": 1,
+                "listener" : {},
+                "data": []
+            }
+        }
+    }
+}

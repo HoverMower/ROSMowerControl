@@ -9,7 +9,13 @@
     },
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
-    "resources": "resources.json"
+    "resources": "resources.json",
+    "dataSources" : {
+      "rosModel" : {
+        "uri" : "model/ros.json",
+        "type" : "JSON"
+      }
+    }
   },
   "sap.ui": {
     "technology": "UI5",
@@ -46,14 +52,26 @@
         "settings": {
           "bundleName": "rosmower.ROSMowerControl.i18n.i18n"
         }
-      }
+      },
+      "ROS": {
+          "dataSource": "rosModel",
+          "type": "sap.ui.model.json.JSONModel"
+        }
     },
     "resources": {
       "css": [
         {
           "uri": "css/style.css"
         }
-      ]
+      ],
+      "roslibjs": [ {
+				"uri": "http://static.robotwebtools.org/roslibjs/current/roslib.min.js",
+				"name": "roslib.min.js"
+			}],
+      "eventemitter2": [ {
+				"uri": "http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js",
+				"name": "eventemitter.min.js"
+			}]
     },
     "routing": {
       "config": {

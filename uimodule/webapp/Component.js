@@ -1,8 +1,9 @@
+
 sap.ui.define([
-        "sap/ui/core/UIComponent",
-        "sap/ui/Device",
-        "rosmower/ROSMowerControl/model/models"
-    ],
+    "sap/ui/core/UIComponent",
+    "sap/ui/Device",
+    "rosmower/ROSMowerControl/model/models"
+],
     function (UIComponent, Device, models) {
         "use strict";
 
@@ -24,7 +25,9 @@ sap.ui.define([
                 this.getRouter().initialize();
 
                 // set the device model
-                this.setModel(models.createDeviceModel(), "device");
+                this.setModel(models.createDeviceModel(), "device");       
+               
+               
             }
         });
     }
