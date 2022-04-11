@@ -3,12 +3,18 @@
         <App id="app">
             <pages>
                 <Page id="page" title="{i18n>title}">
-                    <ToggleButton icon="sap-icon://sys-cancel-2" type="Reject" text="KILL SWITCH" pressed="{ROS>/ROS/subscribers/e_stop/data/0/data}" />
-                    <List headerText="{i18n>rosout}" items="{path: 'ROS>/ROS/subscribers/rosout/data'}">
-                        <StandardListItem title="{ROS>msg}" />
-                    </List>
+
+                    <OverflowToolbar id="otbFooter">
+                        <ToggleButton icon="sap-icon://sys-cancel-2" type="Reject" text="KILL SWITCH" pressed="{ROS>/ROS/subscribers/e_stop/data/0/data}" />
+                        <ToolbarSpacer />
+                        <Button icon="sap-icon://alert" text="{= ${ROS>/ROS/subscribers/rosout/data}.length }" type="Emphasized" press="onMessagePopoverPress"></Button>
+
+                    </OverflowToolbar>
+
+
                 </Page>
             </pages>
+
         </App>
     </Shell>
 </mvc:View>

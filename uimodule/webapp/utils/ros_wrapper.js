@@ -58,6 +58,7 @@ sap.ui.define([], function () {
 
                         // write back to JSON model to trigger refresh
                         ROSmodel.setProperty("/ROS/subscribers" + listener.name, subscribe_to);
+                        
                     });
                 }
                 // after everything has been defined as function block, we need to call it once to

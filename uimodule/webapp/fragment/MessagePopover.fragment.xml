@@ -1,0 +1,13 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <MessagePopover
+        items="{ROS>/ROS/subscribers/rosout/data/}"
+        initiallyExpanded="true">
+        <MessageItem
+            type="{=${ROS>level} === 2 ? 'Information' : ${ROS>level} === 4 ? 'Warning' : 'Error'}"
+            title="{ROS>msg}"
+            subtitle="{ROS>level}"
+            description="{ROS>description}"/>
+    </MessagePopover>
+</core:FragmentDefinition>
