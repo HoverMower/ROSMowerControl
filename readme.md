@@ -13,6 +13,12 @@ Functions (not implemented yet):
 - camera view
 - map view, interaction with robot by clicking on map
 
+# Pre-requisites
+To run the control center
+
+# Configuration
+
+# Installation and start
 
 ## Credits
 This project is based on two main open source projects. The first and major one is the [Robot Web Tools project](http://robotwebtools.org/). This package is responsible for any communication and interaction with ROS.
