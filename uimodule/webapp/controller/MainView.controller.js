@@ -20,6 +20,18 @@ sap.ui.define([
                     oMessagePopover.openBy(oSourceControl);
                 });
             },
+
+            // Handler for Kill Switch
+            // Publish a message to toggle Kill status
+            onKillPress: function (oEvent) {
+                var ROSmodel = this.getView().getModel("ROS");
+                var status = ROSmodel.getProperty("/ROS/subscribers/e_stop/data/0/data");
+                var publisher = ROSmodel.getProperty("/ROS/publisher/e_stop");
+                var message_to_send = publisher.message.replace("$1", status.toString());
+                var message = new ROSLIB.Message( JSON.parse(message_to_send) );
+                publisher.publisher.publish(message);
+
+            },
 		//################ Private APIs ###################
 
 		_getMessagePopover : function () {

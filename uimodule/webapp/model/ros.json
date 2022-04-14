@@ -1,5 +1,8 @@
 {
     "ROS": {
+        "master" : {
+            "url" : "ws://192.168.178.68:8080"
+        },
         "subscribers": {
             "rosout": {
                 "Topic": "/rosout",
@@ -14,6 +17,25 @@
                 "queueLength": 1,
                 "listener" : {},
                 "data": []
+            }
+        },
+        "publisher" : {
+            "e_stop" : {
+                "Topic" : "/e_stop",
+                "messageType" : "std_msgs/Bool",
+                "message" : "{ \"data\" : $1 }",
+                "publisher" : {}
+            }
+        },
+        "3DViewer": {
+            "tf" : {
+                "fixedFrame" : "base_link"
+            },
+            "subscribers" : {
+                "lidar" : {
+                    "Topic" : "/scan",
+                    "messageType" : "sensors_msgs/LaserScan"
+                }
             }
         }
     }

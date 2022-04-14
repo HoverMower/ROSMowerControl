@@ -1,16 +1,18 @@
-<mvc:View controllerName="rosmower.ROSMowerControl.controller.MainView" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+<mvc:View controllerName="rosmower.ROSMowerControl.controller.MainView" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" xmlns:ros3d="rosmower.ROSMowerControl.utils">
     <Shell id="shell">
         <App id="app">
             <pages>
                 <Page id="page" title="{i18n>title}">
 
                     <OverflowToolbar id="otbFooter">
-                        <ToggleButton icon="sap-icon://sys-cancel-2" type="Reject" text="KILL SWITCH" pressed="{ROS>/ROS/subscribers/e_stop/data/0/data}" />
+                        <ToggleButton icon="sap-icon://sys-cancel-2" type="Reject" text="{i18n>killSwitch}" pressed="{ROS>/ROS/subscribers/e_stop/data/0/data}" press="onKillPress" />
                         <ToolbarSpacer />
                         <Button icon="sap-icon://alert" text="{= ${ROS>/ROS/subscribers/rosout/data}.length }" type="Emphasized" press="onMessagePopoverPress"></Button>
 
                     </OverflowToolbar>
-
+                    <content>
+                        <ros3d:ros_viewer id="ros_3d_viewer" width="500" height="300"></ros3d:ros_viewer>
+                    </content>
 
                 </Page>
             </pages>

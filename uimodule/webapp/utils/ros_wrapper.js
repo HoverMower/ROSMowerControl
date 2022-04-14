@@ -1,11 +1,13 @@
 sap.ui.define([], function () {
     "use strict";
+    var ros
     return {
 
         initROS: function (oController) {
-
-            var ros = new ROSLIB.Ros({
-                url: 'ws://192.168.178.68:8080'
+            var ROSmodel = oController.getModel("ROS");
+            var ros_master_url = ROSmodel.getProperty("/ROS/master/url");
+            ros = new ROSLIB.Ros({
+                url: ros_master_url
             });
 
             ros.on('connection', function () {
@@ -21,6 +23,7 @@ sap.ui.define([], function () {
             });
 
             this.initSubscribers(ros, oController);
+            this.initPublisher(ros, oController);
 
         },
 
@@ -58,7 +61,7 @@ sap.ui.define([], function () {
 
                         // write back to JSON model to trigger refresh
                         ROSmodel.setProperty("/ROS/subscribers" + listener.name, subscribe_to);
-                        
+
                     });
                 }
                 // after everything has been defined as function block, we need to call it once to
@@ -67,7 +70,71 @@ sap.ui.define([], function () {
 
             };
 
+        },
+
+        initPublisher: function (ros, oController) {
+            // Register publisher
+            var ROSmodel = oController.getModel("ROS");
+
+            // Loop through all publisher according JSON model
+            for (var element in ROSmodel.getProperty("/ROS/publisher")) {
+                // get current publisher definition from JSON model
+                var publish_to = ROSmodel.getProperty("/ROS/publisher/" + element);
+
+                publish_to.publisher = new ROSLIB.Topic({
+                    ros: ros,
+                    //name: publish_to.Topic,
+                    name : '/e_stop',
+                    messageType: publish_to.messageType
+                });
+            }
+        },
+
+        init3DViewer: function (oControl) {
+            // Create the main viewer.
+            var viewer = new ROS3D.Viewer({
+                divID: oControl.sId,
+                width: oControl.getWidth(),
+                height: oControl.getHeight(),
+                antialias: true
+            });
+
+            // Add a grid.
+            viewer.addObject(new ROS3D.Grid());
+
+            var ROSmodel = oControl.getModel("ROS");
+            var tf = ROSmodel.getProperty("/ROS/3DViewer/tf");
+            // Setup a client to listen to TFs.
+            var tfClient = new ROSLIB.TFClient({
+                ros: ros,
+                angularThres: 0.01,
+                transThres: 0.01,
+                rate: 10.0,
+                fixedFrame: tf.fixedFrame
+            });
+
+            // Loop through all subscribers according JSON model
+            for (var element in ROSmodel.getProperty("/ROS/3DViewer/subscribers")) {
+                // get current subscribe definition from JSON model
+                var subscribe_to = ROSmodel.getProperty("/ROS/3DViewer/subscribers/" + element);
+
+                subscribe_to.listener = function () {
+
+                    switch (subscribe_to.messageType) {
+                        case "sensors_msgs/LaserScan":
+                            var scanclient = new ROS3D.LaserScan({
+                                ros: ros,
+                                topic: subscribe_to.Topic,
+                                tfClient: tfClient,
+                                rootObject: viewer.scene,
+                                material: { size: 0.05, color: 0xaf00ff }
+                            });
+                            break;
+                    }
+                }
+                subscribe_to.listener();
+            }
+            // put your data functions here
         }
-        // put your data functions here
-    };
+    }
 });
