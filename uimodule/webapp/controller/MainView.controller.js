@@ -26,6 +26,9 @@ sap.ui.define([
             onKillPress: function (oEvent) {
                 var ROSmodel = this.getView().getModel("ROS");
                 var status = ROSmodel.getProperty("/ROS/subscribers/e_stop/data/0/data");
+                if (status === undefined ){
+                    status = "true";
+                }
                 var publisher = ROSmodel.getProperty("/ROS/publisher/e_stop");
                 var message_to_send = publisher.message.replace("$1", status.toString());
                 var message = new ROSLIB.Message( JSON.parse(message_to_send) );
